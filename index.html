@@ -383,8 +383,9 @@ td.has-label{vertical-align:top;padding-top:3px!important}
 .notif-crm{display:none;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;margin:8px 0;text-align:center}
 .notif-crm.ok{background:#e6f4f1;color:#027368;border:1px solid #027368}
 .notif-crm.error{background:#fdecea;color:#c0392b;border:1px solid #c0392b}
-.btn-pipeline{background:#2c3e50;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-right:10px;transition:all .2s}
+.btn-pipeline{background:#2c3e50;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;margin:0 8px 8px 0;transition:all .2s;min-width:230px;text-align:center}
 .btn-pipeline:hover{background:#027368}
+.btn-gen{min-width:230px!important;padding:14px 28px!important}
   .sig-b{padding-top:6px!important}
 }
 @media(max-width:700px){
@@ -450,7 +451,7 @@ td.has-label{vertical-align:top;padding-top:3px!important}
 </div>
 
 <!-- ══ COMPANY BAR ══ -->
-<div id="cobar"><div class="cobar"><div class="cobar-in">
+<div id="cobar"><div class="cobar" style="position:relative"><div class="cobar-in"><button onclick="confirmarSair()" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;border-radius:8px;padding:5px 14px;font-size:12px;cursor:pointer;font-weight:600">Sair</button>
   <span class="co-name" id="coname">—</span>
   <span class="co-sep">|</span><span class="co-det" id="cocnpj">—</span>
   <span class="co-sep">|</span><span class="co-det" id="cocity">—</span>
@@ -513,8 +514,17 @@ td.has-label{vertical-align:top;padding-top:3px!important}
   <!-- Condições de Parcelamento -->
   <div class="sec-title">Condições de Parcelamento</div>
   <div class="top-inp">
-    <div class="ig" style="margin:0"><label>Prazo sem juros ao cliente (até)</label>
+    <div class="ig" style="margin:0"><label>Prazos sem juros atuais (até)</label>
       <select id="inp-sj">
+        <option value="">-- selecione --</option>
+        <option value="1">1x</option><option value="2">2x</option><option value="3">3x</option>
+        <option value="4">4x</option><option value="5">5x</option><option value="6">6x</option>
+        <option value="7">7x</option><option value="8">8x</option><option value="9">9x</option>
+        <option value="10">10x</option><option value="12">12x</option><option value="18">18x</option>
+        <option value="24">24x</option>
+      </select></div>
+      <div class="ig" style="margin:0"><label>Prazos sem juros a oferecer (até)</label>
+      <select id="inp-sj-oferta">
         <option value="">-- selecione --</option>
         <option value="1">1x</option><option value="2">2x</option><option value="3">3x</option>
         <option value="4">4x</option><option value="5">5x</option><option value="6">6x</option>
@@ -537,7 +547,7 @@ td.has-label{vertical-align:top;padding-top:3px!important}
     <div class="ig" style="margin:0"><label>Preço base parcelado c/ juros</label>
       <select id="inp-preco-base">
         <option value="">-- selecione --</option>
-        <option value="1">Club (c/ desc. / cashback)</option>
+        <option value="1">Club (c/ desc. / cashback) — Recomendado</option>
         <option value="2">Original (sem desconto)</option>
       </select></div>
   </div>
@@ -550,19 +560,19 @@ td.has-label{vertical-align:top;padding-top:3px!important}
         <option value="">-- selecione --</option>
         <option value="1">1 — Normal</option>
         <option value="2">2 — Alta</option>
-        <option value="3">3 — Média</option>
+        <option value="3">3 — Média — Recomendado</option>
       </select></div>
     <div class="ig" style="margin:0"><label>Tipo de negociação MDR</label>
       <select id="inp-tipo-mdr">
         <option value="">-- selecione --</option>
         <option value="1">1 — Média Platinizada</option>
-        <option value="2">2 — Por Bandeira</option>
+        <option value="2">2 — Por Bandeira — Recomendado</option>
       </select></div>
     <div class="ig" style="margin:0"><label>Tipo de premiação ao cliente</label>
       <select id="inp-tipo-prem">
         <option value="">-- selecione --</option>
         <option value="1">1 — Desconto</option>
-        <option value="2">2 — Cashback</option>
+        <option value="2">2 — Cashback — Recomendado</option>
         <option value="3">3 — Ambos</option>
       </select></div>
     <div class="ig" style="margin:0"><label>Rebate mínimo desejado (%)</label>
@@ -736,22 +746,48 @@ td.has-label{vertical-align:top;padding-top:3px!important}
   </div>
 
   <!-- GENERATE PROPOSAL -->
-  <div class="gen-bar">
+  <div class="gen-bar" style="margin-bottom:16px">
+  <h3>Tarifas POS</h3>
+  <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Defina as condições de equipamento para esta proposta.</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+    <div class="ig" style="margin:0">
+      <label>Mensalidade POS (R$) <span style="color:var(--muted);font-size:11px">mínimo R$ 60,00</span></label>
+      <input type="text" id="gen-mensalidade-pos" inputmode="decimal" placeholder="60,00">
+    </div>
+    <div class="ig" style="margin:0">
+      <label>Isenção inicial POS</label>
+      <select id="gen-isencao-pos">
+        <option value="3">3 meses (padrão)</option>
+        <option value="2">2 meses</option>
+        <option value="4">4 meses</option>
+        <option value="0">Sem isenção</option>
+      </select>
+      <p style="font-size:11px;color:var(--muted);margin-top:4px">* Após a isenção, mensalidade cobrada se faturamento mínimo por equipamento não for atingido.</p>
+    </div>
+    <div class="ig" style="margin:0">
+      <label>Tarifa por transação (R$)</label>
+      <input type="text" id="gen-tarifa-transacao" inputmode="decimal" placeholder="0,00">
+    </div>
+  </div>
+</div>
+<div class="gen-bar">
     <h3>📄 Gerar Proposta Comercial Completa</h3>
     <p>Preencha os dados abaixo para gerar a proposta formal, com todos os aspectos legais, tabelas personalizadas e campos para assinatura.</p>
     <div class="gen-grid">
       <div class="ig"><label>Nome do responsável / signatário</label><input type="text" id="gen-resp" placeholder="Ex: João da Silva"></div>
       <div class="ig"><label>Cargo</label><input type="text" id="gen-cargo" placeholder="Ex: Diretor Comercial"></div>
+      <div class="ig"><label>Telefone / WhatsApp <span style="color:var(--gold)">*</span></label><input type="text" id="gen-tel" placeholder="Ex: (21) 99999-9999"></div>
+      <div class="ig"><label>E-mail <span style="color:var(--gold)">*</span></label><input type="email" id="gen-email" placeholder="Ex: diretor@empresa.com.br"></div>
       <div class="ig"><label>Nº de unidades no grupo</label><input type="number" id="gen-un" value="1" min="1" max="50"></div>
       <div class="ig"><label>Endereço de entrega do POS (1ª unidade)</label><input type="text" id="gen-end" placeholder="Rua, nº, cidade/UF"></div>
       <div class="ig"><label>Nome curto do grupo <span style="color:var(--dimmed);font-weight:400;text-transform:none">(opcional — ex: D'Santos Colchões)</span></label><input type="text" id="gen-grupo" placeholder="Deixe em branco para usar os 2 primeiros nomes da razão social"></div>
     </div>
     <div id="notif-crm"></div>
   <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:10px">
-    <button class="btn-pipeline" id="btn-pipeline" onclick="salvarNoPipeline()">Salvar no Pipeline</button>
+    <button class="btn-pipeline" id="btn-pipeline" onclick="salvarNoPipeline()">Salvar Simulação</button>
     <span style="font-size:12px;color:var(--muted)">Registra esta simulacao no CRM WallClub</span>
   </div>
-  <button class="btn-gen" onclick="gerarProposta()"><span>✦</span> Gerar Proposta Completa</button>
+  <button class="btn-gen" onclick="gerarProposta()"><span>✦</span> Gerar Proposta para Envio ao Cliente</button>
   </div>
  
  </div>
@@ -1155,8 +1191,9 @@ td.has-label{vertical-align:top;padding-top:3px!important}
 .notif-crm{display:none;padding:10px 16px;border-radius:8px;font-size:13px;font-weight:600;margin:8px 0;text-align:center}
 .notif-crm.ok{background:#e6f4f1;color:#027368;border:1px solid #027368}
 .notif-crm.error{background:#fdecea;color:#c0392b;border:1px solid #c0392b}
-.btn-pipeline{background:#2c3e50;color:#fff;border:none;border-radius:10px;padding:12px 24px;font-size:14px;font-weight:700;cursor:pointer;margin-right:10px;transition:all .2s}
+.btn-pipeline{background:#2c3e50;color:#fff;border:none;border-radius:12px;padding:14px 28px;font-size:15px;font-weight:700;cursor:pointer;margin:0 8px 8px 0;transition:all .2s;min-width:230px;text-align:center}
 .btn-pipeline:hover{background:#027368}
+.btn-gen{min-width:230px!important;padding:14px 28px!important}
   .sig-b{padding-top:6px!important}
 }
 @media(max-width:700px){
@@ -1399,7 +1436,7 @@ async function verificarCNPJ(){
     document.getElementById('cocnpj').textContent=empresa.cnpj;
     document.getElementById('cocity').textContent=empresa.municipio+'/'+empresa.uf;
     verificarCNPJnoCRM(empresa.cnpj).then(function(r){
-      if(r&&!r.pode) showStat('error','\u274c CNPJ ja pertence a outro consultor: '+r.motivo);
+      if(r&&r.pode===false) showStat('error','\u274c CNPJ ja pertence a outro consultor: '+r.motivo);
     }).catch(function(){});
     setTimeout(function(){
       showScreen('dados');
@@ -1464,6 +1501,7 @@ function setMode(m){
   mode=m;
   document.getElementById('mbtn-a').classList.toggle('active',m==='a');
   document.getElementById('mbtn-b').classList.toggle('active',m==='b');
+  document.getElementById('taxas-por-prazo').style.display=m==='a'?'block':'none';
   document.getElementById('faixa-sec').style.display=m==='b'?'block':'none';
   refreshTable();
 }
@@ -1617,6 +1655,11 @@ function printProp(){
 // ── GENERATE PROPOSAL ──
 function gerarProposta(){
   var T=getT();
+  var genTel=document.getElementById('gen-tel');
+  var telVal=genTel?genTel.value.trim():'';
+  var genEmail=document.getElementById('gen-email');
+  var emailVal=genEmail?genEmail.value.trim():'';
+  if(!telVal&&!emailVal){showStat('error','Informe pelo menos o telefone ou e-mail do contato.');return;}
   var resp=document.getElementById('gen-resp').value.trim()||'_______________';
   var cargo2=document.getElementById('gen-cargo').value.trim()||'_______________';
   var un=parseInt(document.getElementById('gen-un').value)||1;
@@ -2123,6 +2166,15 @@ function irParaSimulacao(){
   salvarRascunhoCRM();
 }
 
+function confirmarSair(){
+  if(confirm("Deseja sair da simulação atual?")){
+    empresa=null; simD=null; _idRascunhoAtual=null;
+    document.getElementById('inp-senha').value='';
+    document.getElementById('vstat-login').style.display='none';
+    showScreen('login');
+  }
+}
+
 // ── HELPERS ──
 function nomeGrupo(razaoSocial, nomeFantasia, nomeCustom){
   if(nomeCustom&&nomeCustom.trim()) return nomeCustom.trim();
@@ -2216,7 +2268,7 @@ async function fazerLogin(){
 }
 
 // Save simulation to Google Sheets
-async // ── CRM INTEGRATION ──
+// ── CRM INTEGRATION ──
 var APPS_SCRIPT_URL='https://script.google.com/macros/s/AKfycbzlii1TdRCNQGBv9ZGtB20iUCWF2PxJ55Vs0AcAVMe7edLRPORIV5T_-TrsMg3bCBKY/exec';
 var _idRascunhoAtual=null;
 
@@ -2304,7 +2356,9 @@ function mostrarNotif(tipo,msg){
 (function(){
   // Add enter key support for login
   var inp=document.getElementById('inp-senha');
-  if(inp) inp.addEventListener('keydown',function(e){if(e.key==='Enter')fazerLogin();});
+  if(inp) inp.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();fazerLogin();}});
+  var cepEl=document.getElementById('inp-cep');
+  if(cepEl) cepEl.addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();verificarCNPJ();}});
   // Start on login screen
   showScreen('login');
 })();
